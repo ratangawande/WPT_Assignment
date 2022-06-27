@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Area Iformation Document</title>
+</head>
+<script src = "https://code.jquery.com/jquery-3.6.0.js"></script>
+<script>
+
+    $(()=>{
+
+        console.log("my html page is loaded.")
+
+        $("#nu").blur(()=>{
+
+            console.log("blur event occured")
+
+            let input = {pincode:$("#nu").val()}        //excepting pincode from input text box to input
+
+            let parameterstothefunction = {
+
+                data:input,
+                url:'http://localhost:1900/areainfo',
+                type:'get',
+                datatype:'json',
+                success:(datagivenbyserver)=>{
+
+                    console.log('server data success'+' '+datagivenbyserver.status)   //datagivenbyserver from ajaxqu4.js
+
+                    if(datagivenbyserver.status === true)
+                    {
+                        
+                        $("#ar").text('Area found is'+' '+datagivenbyserver.areadetails.area)
+
+                                                        
+                    }else{
+
+                        $("#ar").text('Area not found')
+
+                    }
+
+
+
+                },
+
+                error:(errorgivenbyserver)=>{
+
+                    console.log('failed to contact server'+' '+errorgivenbyserver)
+
+                }
+
+
+            }
+
+            console.log('working')
+
+            $.ajax(parameterstothefunction)
+
+
+
+        })
+
+
+        
+    })
+</script> 
+<body>
+    <h1>Information about Area</h1>
+    <span id = "pi">Pincode</span><tr><td> <input type = "number" id = "nu" placeholder = "pincode"></td></tr>
+    <span id = "ar">Area related pincode</span>
+</body>
+</html>
